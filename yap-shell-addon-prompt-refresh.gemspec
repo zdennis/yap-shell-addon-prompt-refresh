@@ -12,7 +12,9 @@ Gem::Specification.new do |spec|
   spec.homepage = ''
   spec.license = 'MIT'
 
-  spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(/^(test|spec|features)\//) }
+  spec.files = `git ls-files -z`.split("\x0").reject do |f|
+    f.match(/^(test\/|spec\/|features\/|.*\.gif$)/)
+  end
   spec.bindir        = "exe"
   spec.executables   = spec.files.grep(/^exe\//) { |f| File.basename(f) }
   spec.require_paths = ["lib"]

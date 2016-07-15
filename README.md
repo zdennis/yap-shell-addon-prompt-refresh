@@ -1,20 +1,20 @@
 # prompt-refresh for yap-shell
 
-Welcome to your new yap addon! In this directory, you'll find the files you need to be able to package up your addon into a gem. Put your Ruby code in the file `lib/yap-shell-addon-prompt-refresh`.
+prompt-refresh is a yap-shell addon that automatically refreshes your prompt.
 
-TODO: Delete this and the text above, and describe your gem
+By default, it will refresh it every 100 milliseconds, but this is configurable thru your `yaprc` file.
+
+![Prompt live refreshes across shell instances](/yap-shell-addon-prompt-refresh.gif?raw=true)
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Within the yap-shell you can install it as an addon via:
 
-```ruby
-gem 'yap-shell-addon-prompt-refresh'
-```
+    $ yap addon install prompt-refresh
 
 And then execute:
 
-    $ bundle
+    $ reload!
 
 Or install it yourself as:
 
@@ -22,17 +22,38 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+If you have customized your yap-shell prompt to be a lambda/proc then it is possible to have yap automatically refresh it.
 
-## Development
+For example, say you put your current git branch into your prompt and you wanted every shell session you had open to always have the up-to-date branch displayed (without you having to do a thing).
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+You might have your prompt configured like this in your `~/.yap/yaprc` file:
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+    world.prompt = -> do
+      # use ~ instead of full-path to home directory
+      pwd = Dir.pwd.sub Regexp.new(ENV['HOME']), '~'
+
+      # identify our current branch
+      git_current_branch = `git branch 2>/dev/null | sed -n '/\* /s///p'`.chomp
+
+      # is the current directory a part of a git enabled directory structure?
+      is_git_aware = git_current_branch.length > 0
+
+      git_branch = is_git_aware ? cyan(git_current_branch) : ''
+
+      # E.g. ~/source/my-project master $
+      "#{yellow(pwd)} #{git_branch} $ "
+    end
+
+After install this add-on your prompt will automatically refresh with the latest prompt every 100 milliseconds.
+
+To change this you can configure this through your addon:
+
+  world.addons[:'prompt-refresh'].refresh_interval_in_ms = 150
+
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/yap-shell-addon-prompt-refresh.
+Bug reports and pull requests are welcome on GitHub at https://github.com/zdennis/yap-shell-addon-prompt-refresh.
 
 
 ## License

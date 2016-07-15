@@ -3,13 +3,13 @@ require File.dirname(__FILE__) + '/lib/yap-shell-addon-prompt-refresh/version'
 Gem::Specification.new do |spec|
   spec.name    = 'yap-shell-addon-prompt-refresh'
   spec.version = YapShellAddonPromptRefresh::VERSION
-  spec.authors  = ['Your name']
-  spec.email    = 'you@example.com'
+  spec.authors  = ['Zach Dennis']
+  spec.email    = 'zach.dennis@gmail.com'
   spec.date    = Date.today.to_s
 
-  spec.summary = 'prompt-refresh summary goes here.'
-  spec.description = 'prompt-refresh description goes here.'
-  spec.homepage = ''
+  spec.summary = 'A yap-shell addon that automatically refreshes your prompt.'
+  spec.description = 'A a yap-shell addon that automatically refreshes your prompt using a refresh interval.'
+  spec.homepage = 'https://github.com/zdennis/yap-shell-addon-prompt-refresh'
   spec.license = 'MIT'
 
   spec.files = `git ls-files -z`.split("\x0").reject do |f|
